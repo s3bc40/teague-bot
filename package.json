@@ -1,0 +1,23 @@
+{
+  "name": "teague-bot",
+  "version": "1.0.0",
+  "description": "First discord bot : Edward Teague Sparrow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s3bc40/teague-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s3bc40/teague-bot/issues"
+  },
+  "homepage": "https://github.com/s3bc40/teague-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "eslint": "^7.15.0"
+  }
+}
