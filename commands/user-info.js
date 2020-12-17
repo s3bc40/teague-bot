@@ -6,10 +6,7 @@ module.exports = {
     name: 'user-info',
     description: 'Permet de connaître les informations de l\'expéditeur',
     execute(message, args) {
-        if (!args.length) {
-            return message.channel.send(`Pas d\arguments ? SUS ${message.author.username} !`);
-        }
-
-        message.channel.send(`Commande : ${command}\nArguments : ${args}`);
+        const response = `Ton nom : ${message.author.username}\nTon ID : ${message.author.id}`;
+        message.channel.send(response);
     }
 }

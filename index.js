@@ -9,7 +9,7 @@ const client = new Discord.Client();
 // Init Command Collection
 client.commands = new Discord.Collection();
 // Retrieve dynamically all comands
-const commandFiles = fs.readFileSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     let command = require(`./commands/${file}`);
 
@@ -25,57 +25,34 @@ client.on('message', (message) => {
     // If no prefix or the message is from the bot exit
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+    // Get args and commandName
     const args = message.content.slice(prefix.length).trim().split(/ +/); // Regex
-    const command = args.shift().toLowerCase();
-
-    // Command to execute and send back message
-    if (message.content.startsWith(`${prefix}pourparler`)) {
-        message.channel.send('C\'est la loi, parle!');
-    } 
-    else if (message.content.startsWith(`${prefix}rhum`)) {
-        message.channel.send('Et une bouteille de Rhum!')
-    } 
-    else if (message.content === `${prefix}server`) {
-        const response = `Le nom du serveur où je réside est : ${message.guild.name}\nEquipage à bord : ${message.guild.memberCount}`; 
-        message.channel.send(response);
+    const commandName = args.shift().toLowerCase();
+    
+    if (!client.commands.has(commandName)) {
+        return message.reply('t\'es drunk ou quoi ?! Je connais pas cette commande !');   
     }
-    else if (message.content === `${prefix}user-info`) {
-        const response = `Ton nom : ${message.author.username}\nTon ID : ${message.author.id}`;
-        message.channel.send(response);
-    }
-    // Advanced command handling
-    else if (command === 'args-info') {
-        if (!args.length) {
-            return message.channel.send(`Pas d\arguments ? SUS ${message.author.username} !`);
+    
+    const command = client.commands.get(commandName);
+    
+    if (command.args && !args.length) {
+        let reply = `Pas d\arguments ? SUS ${message.author.username} !`;
+        if (command.usage) {
+            reply += `\nSelon le code, tu dois faire comme ça : \`${prefix}${command.name} ${command.usage}\``;
         }
 
-        message.channel.send(`Commande : ${command}\nArguments : ${args}`);
+        return message.channel.send(reply);
     }
-    else if (command === 'kick') {
-        if (!message.mentions.users.size){
-            return message.reply('Tag quelqu\'un avant de me déranger !');
-        }
-        const taggedUser = message.mentions.users.first();
 
-        message.channel.send(`C\'est TCHAO pour ${taggedUser.username} ?`);
+    // Execute the command 
+    try {
+        command.execute(message, args)
+    } catch (error) {
+        console.error(error);
+        message.reply('la commande a des erreurs, mais c\'est pas mon problème !');
     }
-    else if (command === 'avatar') {
-        if (!message.mentions.users.size) {
-            return message.channel.send(`Ton avatar pirate : <${
-                message.author.displayAvatarURL({format: "png", dynamic: true}) // Dynamic : Gif
-            }>`)
-        }
 
-        const avatarList = message.mentions.users.map( user => {
-            return `L'avatar de ${user.username} : <${
-                user.displayAvatarURL({format: "png", dynamic: true})
-            }>`;
-        });
-        // send the entire array of strings as a message
-        // by default, discord.js will `.join()` the array with `\n`
-        message.channel.send(avatarList);
-    }
-    console.log(message.content)
+    console.log(message.content);
 })
 // Bot Token login
 client.login(token)
