@@ -1,8 +1,9 @@
 /* eslint-disable no-inline-comments */
 // Reading file system
 const fs = require('fs');
-// Get init config : config or heroku env
-const { prefix, token } = require('./config.json') || [process.env.PREFIX, process.env.TOKEN];
+// Get init config : heroku env
+const prefix = process.env.PREFIX;
+const token = process.env.TOKEN;
 // Init Discord module
 const Discord = require('discord.js');
 // Create a new Discord client
