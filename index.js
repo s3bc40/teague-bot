@@ -152,11 +152,34 @@ client.on('message', (message) => {
 	###############
 */
 client.on('guildMemberAdd', member => {
-	const channel = member.guild.channels.cache.find(ch => ch.name === 'member-log');
+	console.log(member);
+	// Get bienvenue channel with ID
+	const channel = member.guild.channels.cache.get('781481803537580042');
 	if (!channel) return;
 	channel.send(`Bienvenue Pirate !\nTe voici membre de l'équipage de "${channel.guild.name}", ${member} !`);
 
-	console.log(member);
+});
+
+/*
+	###############
+	ON STREAM PANDO
+	###############
+*/
+client.on('presenceUpdate', (oldPresence, newPresence) => {
+	if (!newPresence.activities ||
+		newPresence.user.tag !== 'Pandowner#5979' ||
+		newPresence.equals(oldPresence)) return;
+	// Get STREAMING Activity type for Pando
+	newPresence.activities.forEach(activity => {
+		if (activity.type === 'STREAMING') {
+			// Get channel annonce (TextChannel)
+			const channel = client.channels.cache.get('781482487380574229');
+			if (channel.isText()) {
+				channel.send(`Tous à vos postes ! ${newPresence.user.username} prend les commandes du navire à ${activity.url}.`);
+			}
+			console.log(`Tous à vos postes ! ${newPresence.user.username} prend les commandes du navire à ${activity.url}.`);
+		}
+	});
 });
 
 /*
@@ -166,3 +189,11 @@ client.on('guildMemberAdd', member => {
 */
 // Bot Token login
 client.login(TOKEN);
+
+/*
+	###############
+	BOT INFOS
+	###############
+*/
+/* Timeout to let the bot log and see channels */
+// setTimeout(() => console.log(client.channels), 5000);
