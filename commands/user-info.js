@@ -21,7 +21,7 @@ module.exports = {
 				{ name: '\u200B', value: '\u200B' },
 				{ name: 'Experience', value: 'Over 9000', inline: true },
 				{ name: 'Statut', value: 'Mercenaire', inline: true },
-				{ name: 'Moto', value: 'Pour Narnia !', inline: true },
+				{ name: 'Devise', value: 'Pour Narnia !', inline: true },
 			)
 			.setImage('https://i.imgur.com/76oAXmW.jpeg')
 			.setTimestamp()
