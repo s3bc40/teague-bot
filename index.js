@@ -101,7 +101,7 @@ client.on('message', (message) => {
 	*/
 	// Guild only command
 	if (command.guildOnly && message.channel.type === 'dm') {
-		return message.reply('I can\'t execute that command inside DMs!');
+		return message.reply('Trop personnel pour être exécuté !');
 	}
 
 	/*
