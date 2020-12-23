@@ -166,15 +166,13 @@ client.on('guildMemberAdd', member => {
 	###############
 */
 client.on('presenceUpdate', (oldPresence, newPresence) => {
-	if (!newPresence.activities || newPresence.user.tag !== 'Pandowner#5979') return;
+	if (newPresence.user.tag !== 'Pandowner#5979') return;
 	// Get STREAMING Activity type for Pando
 	newPresence.activities.forEach(activity => {
 		if (activity.type === 'STREAMING') {
 			// Get channel annonce (TextChannel)
-			const channel = client.channels.cache.get('781482487380574229');
-			if (channel.isText()) {
-				channel.send(`Tous à vos postes ! ${newPresence.user.username} prend les commandes du navire à ${activity.url}.`);
-			}
+			const channel = newPresence.guild.channels.cache.get('781482487380574229');
+			channel.send(`Tous à vos postes ! ${newPresence.user.username} prend les commandes du navire à ${activity.url}.`);
 			console.log(`Tous à vos postes ! ${newPresence.user.username} prend les commandes du navire à ${activity.url}.`);
 		}
 	});
@@ -194,4 +192,4 @@ client.login(TOKEN);
 	###############
 */
 /* Timeout to let the bot log and see channels */
-// setTimeout(() => console.log(client.channels), 5000);
+// setTimeout(() => console.log(client.channels.cache), 5000);
