@@ -166,9 +166,7 @@ client.on('guildMemberAdd', member => {
 	###############
 */
 client.on('presenceUpdate', (oldPresence, newPresence) => {
-	if (!newPresence.activities ||
-		newPresence.user.tag !== 'Pandowner#5979' ||
-		newPresence.equals(oldPresence)) return;
+	if (!newPresence.activities || newPresence.user.tag !== 'Pandowner#5979') return;
 	// Get STREAMING Activity type for Pando
 	newPresence.activities.forEach(activity => {
 		if (activity.type === 'STREAMING') {
